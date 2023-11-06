@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,9 +25,18 @@ export class UserController {
   }
 
   @Get()
-  // 单个控制接口版本：@Version('1')
-  findAll() {
-    return this.userService.findAll();
+  // @Version('1')//单个控制接口版本装饰器
+  /**
+   * @param query
+   * @Query()是获取参数装饰器
+   */
+  findAll(@Query() query) {
+    console.log(query); // 获取get请求的参数
+    // return this.userService.findAll();
+    return {
+      code: 200,
+      message: query.name, // 属性值是根据真实调用接口时传进来的。所以name不一定存在
+    };
   }
 
   @Get(':id')
