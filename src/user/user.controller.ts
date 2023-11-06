@@ -24,6 +24,18 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post('/create1')
+  create1(@Body() body) {
+    /**
+     * @Body('name') body
+     * 如果这么写的话，拿到的body直接就是name的值了。算是快捷访问
+     */
+    return {
+      code: 200,
+      message: body.name,
+    };
+  }
+
   @Get()
   // @Version('1')//单个控制接口版本装饰器
   /**
@@ -39,8 +51,13 @@ export class UserController {
     };
   }
 
+  /**
+   * 动态路由方式
+   * @param id
+   */
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log('id', id);
     return this.userService.findOne(+id);
   }
 
