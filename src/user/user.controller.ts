@@ -7,6 +7,9 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  Res,
+  Session,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -36,6 +39,19 @@ export class UserController {
     };
   }
 
+  @Post('codeCheck')
+  codeCheck(@Body() body, @Session() session) {
+    console.log('====', body, session.code);
+    // 通过apifox分别调用获取code及校验code两个接口，其session拿不到
+    return {
+      code: 200,
+      message:
+        session.code?.toLowerCase() === body?.code?.toLowerCase()
+          ? '验证成功'
+          : '验证失败',
+    };
+  }
+
   @Get()
   // @Version('1')//单个控制接口版本装饰器
   /**
@@ -51,11 +67,16 @@ export class UserController {
     };
   }
 
+  @Get('/code')
+  createCode(@Req() req, @Res() res, @Session() session) {
+    return this.userService.createCode(req, res, session);
+  }
+
   /**
    * 动态路由方式
    * @param id
    */
-  @Get(':id')
+  @Get('/finderOne/:id')
   findOne(@Param('id') id: string) {
     console.log('id', id);
     return this.userService.findOne(+id);
