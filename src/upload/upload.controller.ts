@@ -1,7 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { CreateUploadDto } from './dto/create-upload.dto';
 import { UpdateUploadDto } from './dto/update-upload.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('upload')
 export class UploadController {
@@ -10,6 +21,25 @@ export class UploadController {
   @Post()
   create(@Body() createUploadDto: CreateUploadDto) {
     return this.uploadService.create(createUploadDto);
+  }
+
+  /**
+   * 创建上传文件函数
+   */
+  @Post('album')
+  @UseInterceptors(FileInterceptor('file')) //  用于支持文件上传的函数装饰器，单个文件用FileInterceptor，批量上传用FilesInterceptor
+  upload(@UploadedFile() file) {
+    /**
+     * 通过@UploadedFile()读取上传文件
+     * 具体调用方法是：
+     * 在apifox里面输入请求地址，注意是post格式
+     * 然后选择body下面的form-data
+     * 参数名写file，参数类型选择file
+     * 此时参数值就会出来一个upload按钮
+     * 点击选择图片后点击发送按钮
+     */
+    console.log('===', file);
+    return '上传图片成功~~~';
   }
 
   @Get()
