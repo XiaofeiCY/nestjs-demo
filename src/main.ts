@@ -7,6 +7,7 @@ import * as cors from 'cors';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { DataResponse } from './common/response';
+import { HttpFilter } from './common/filter';
 
 // 项目的入口文件
 // 项目主函数
@@ -57,6 +58,9 @@ async function bootstrap() {
 
   // 注册全局响应拦截器,作用是帮助接口返回值统一格式
   app.useGlobalInterceptors(new DataResponse());
+
+  // 注册全局异常拦截器，作用是帮助接口统一返回异常报错信息
+  app.useGlobalFilters(new HttpFilter());
 
   app.use(
     session({
