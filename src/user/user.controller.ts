@@ -29,6 +29,7 @@ export class UserController {
 
   @Post('/create1')
   create1(@Body() body) {
+    console.log('~~~~', body.name);
     /**
      * @Body('name') body
      * 如果这么写的话，拿到的body直接就是name的值了。算是快捷访问
