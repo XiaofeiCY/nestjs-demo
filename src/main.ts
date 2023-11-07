@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
 import { NextFunction, Request, Response } from 'express';
 import * as cors from 'cors';
@@ -61,6 +61,9 @@ async function bootstrap() {
 
   // 注册全局异常拦截器，作用是帮助接口统一返回异常报错信息
   app.useGlobalFilters(new HttpFilter());
+
+  // 注册全局校验DTO--注意：错误提示信息展示会受到上面异常拦截器的影响从而展示不够详细。注释掉上面的异常拦截器就可以看到详细报错，或者优化当前DTO报错返回格式也行
+  app.useGlobalPipes(new ValidationPipe());
 
   app.use(
     session({
