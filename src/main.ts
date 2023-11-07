@@ -6,6 +6,8 @@ import { NextFunction, Request, Response } from 'express';
 import * as cors from 'cors';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { DataResponse } from './common/response';
+
 // 项目的入口文件
 // 项目主函数
 /**
@@ -52,6 +54,9 @@ async function bootstrap() {
 
   // 注册全局中间件
   app.use(MiddleWareAll);
+
+  // 注册全局响应拦截器,作用是帮助接口返回值统一格式
+  app.useGlobalInterceptors(new DataResponse());
 
   app.use(
     session({
