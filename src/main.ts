@@ -4,6 +4,8 @@ import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
 import { NextFunction, Request, Response } from 'express';
 import * as cors from 'cors';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 // 项目的入口文件
 // 项目主函数
 /**
@@ -24,8 +26,18 @@ function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
 }
 
 async function bootstrap() {
-  //AppModule是主入口文件
-  const app = await NestFactory.create(AppModule);
+  /**
+   *   AppModule是主入口文件
+   *   通过添加NestExpressApplication类型，帮助app实例导出useStaticAssets方法
+   *   通过useStaticAssets读取上传成功后的静态资源文件
+   *   具体使用方法：
+   *   图片名称在dist/image文件夹里面找
+   *   地址栏输入：http://localhost:3000/chunyang/1699327606820.png
+   */
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname, 'image'), {
+    prefix: '/chunyang', // 配置路径前缀
+  });
   /**
    * 注册跨域函数
    * 测试方式：
