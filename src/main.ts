@@ -69,8 +69,9 @@ async function bootstrap() {
   // 注册全局守卫文件
   // app.useGlobalGuards(new RoleGuard());
 
-  // 初始化swagger文件
+  // 初始化swagger文件，浏览器打开：http://localhost:3000/api-doc
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('蠢羊的api文档')
     .setDescription('学习nestjs')
     .setVersion('1')
