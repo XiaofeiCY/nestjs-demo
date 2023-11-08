@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { DataResponse } from './common/response';
 import { HttpFilter } from './common/filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 // 项目的入口文件
 // 项目主函数
@@ -67,6 +68,15 @@ async function bootstrap() {
 
   // 注册全局守卫文件
   // app.useGlobalGuards(new RoleGuard());
+
+  // 初始化swagger文件
+  const options = new DocumentBuilder()
+    .setTitle('蠢羊的api文档')
+    .setDescription('学习nestjs')
+    .setVersion('1')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api-doc', app, document);
 
   app.use(
     session({
