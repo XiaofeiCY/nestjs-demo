@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  SetMetadata,
+  UseGuards,
 } from '@nestjs/common';
 import { GuardService } from './guard.service';
 import { CreateGuardDto } from './dto/create-guard.dto';
 import { UpdateGuardDto } from './dto/update-guard.dto';
+import { RoleGuard } from './role/role.guard';
 
 @Controller('guard')
-// @UseGuards(RoleGuard)
+@UseGuards(RoleGuard)
 export class GuardController {
   constructor(private readonly guardService: GuardService) {}
 
@@ -22,6 +25,7 @@ export class GuardController {
   }
 
   @Get()
+  @SetMetadata('roleList', ['admin', 'admin1'])
   findAll() {
     return this.guardService.findAll();
   }

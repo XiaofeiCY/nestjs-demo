@@ -8,7 +8,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { DataResponse } from './common/response';
 import { HttpFilter } from './common/filter';
-import { RoleGuard } from './guard/role/role.guard';
 
 // 项目的入口文件
 // 项目主函数
@@ -67,7 +66,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // 注册全局守卫文件
-  app.useGlobalGuards(new RoleGuard());
+  // app.useGlobalGuards(new RoleGuard());
 
   app.use(
     session({
