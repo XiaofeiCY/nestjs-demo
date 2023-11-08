@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { DataResponse } from './common/response';
 import { HttpFilter } from './common/filter';
+import { RoleGuard } from './guard/role/role.guard';
 
 // 项目的入口文件
 // 项目主函数
@@ -64,6 +65,9 @@ async function bootstrap() {
 
   // 注册全局校验DTO--注意：错误提示信息展示会受到上面异常拦截器的影响从而展示不够详细。注释掉上面的异常拦截器就可以看到详细报错，或者优化当前DTO报错返回格式也行
   app.useGlobalPipes(new ValidationPipe());
+
+  // 注册全局守卫文件
+  app.useGlobalGuards(new RoleGuard());
 
   app.use(
     session({
