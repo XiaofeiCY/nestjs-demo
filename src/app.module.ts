@@ -10,6 +10,7 @@ import { LoginModule } from './login/login.module';
 import { GuardModule } from './guard/guard.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DbtestModule } from './dbtest/dbtest.module';
+import { ManageModule } from './manage/manage.module';
 
 /*
  * 类装饰器
@@ -37,6 +38,7 @@ import { DbtestModule } from './dbtest/dbtest.module';
       autoLoadEntities: true, // 如果为true将自动加载实体forFeature()方法注册的每个实体都将自动添加到配置对象的实体数组中。
     }),
     DbtestModule,
+    ManageModule,
   ],
   controllers: [AppController, DemoController],
   providers: [AppService],
