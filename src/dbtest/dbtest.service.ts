@@ -5,11 +5,13 @@ import { Like, Repository } from 'typeorm';
 import { Dbtest } from './entities/dbtest.entity';
 import { CreateDbtestDto } from './dto/create-dbtest.dto';
 import { findListParams, tagParams } from './dbtest.controller';
+import { Tags } from './entities/tags.entity';
 
 @Injectable()
 export class DbtestService {
   constructor(
     @InjectRepository(Dbtest) private readonly dbtest: Repository<Dbtest>,
+    @InjectRepository(Tags) private readonly tags: Repository<Tags>,
   ) {}
 
   create(createUserDto: CreateDbtestDto) {
@@ -22,6 +24,7 @@ export class DbtestService {
 
   async findAll(query: findListParams) {
     const data = await this.dbtest.find({
+      relations: ['tags'],
       where: {
         name: Like(`%${query.keyword}%`),
       },
@@ -56,8 +59,21 @@ export class DbtestService {
     return this.dbtest.delete(id);
   }
 
-  addTags(params: tagParams) {
-    console.log('-------', params);
+  async addTags(params: tagParams) {
+    const userInfo = await this.dbtest.findOne({
+      where: {
+        id: params.userId as unknown as number,
+      },
+    });
+    const tagList: Tags[] = [];
+    for (let i = 0; i < params.tags.length; i++) {
+      const T = new Tags();
+      T.name = params.tags[i];
+      await this.tags.save(T);
+      tagList.push(T);
+    }
+    userInfo.tags = tagList;
+    await this.dbtest.save(userInfo);
     return true;
   }
 }
