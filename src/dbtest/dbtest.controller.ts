@@ -12,6 +12,12 @@ import { DbtestService } from './dbtest.service';
 import { CreateDbtestDto } from './dto/create-dbtest.dto';
 import { UpdateDbtestDto } from './dto/update-dbtest.dto';
 
+export interface findListParams {
+  keyword: string;
+  page: number;
+  pageSize: number;
+}
+
 @Controller('dbtest')
 export class DbtestController {
   constructor(private readonly dbtestService: DbtestService) {}
@@ -22,7 +28,7 @@ export class DbtestController {
   }
 
   @Get()
-  findAll(@Query() query: { name: string }) {
+  findAll(@Query() query: findListParams) {
     return this.dbtestService.findAll(query);
   }
 

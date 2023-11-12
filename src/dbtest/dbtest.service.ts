@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { Dbtest } from './entities/dbtest.entity';
 import { CreateDbtestDto } from './dto/create-dbtest.dto';
+import { findListParams } from './dbtest.controller';
 
 @Injectable()
 export class DbtestService {
@@ -19,12 +20,28 @@ export class DbtestService {
     return this.dbtest.save(data);
   }
 
-  findAll(query: { name: string }) {
-    return this.dbtest.find({
+  async findAll(query: findListParams) {
+    const data = await this.dbtest.find({
       where: {
-        name: Like(`%${query.name}%`),
+        name: Like(`%${query.keyword}%`),
+      },
+      order: {
+        // desc 倒序，asc:正序
+        id: 'desc',
+      },
+      skip: (query.page - 1) * query.pageSize, // page最小为1
+      take: query.pageSize,
+    });
+    const total = await this.dbtest.count({
+      where: {
+        name: Like(`%${query.keyword}%`),
       },
     });
+
+    return {
+      data,
+      total,
+    };
   }
 
   findOne(id: number) {
