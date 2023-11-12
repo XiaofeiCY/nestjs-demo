@@ -32,11 +32,10 @@ export class DbtestService {
   }
 
   update(id: number, updateDbtestDto: UpdateDbtestDto) {
-    console.log('updateDbtestDto', updateDbtestDto);
-    return `This action updates a #${id} dbtest`;
+    return this.dbtest.update(id, updateDbtestDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} dbtest`;
+    return this.dbtest.delete(id);
   }
 }
