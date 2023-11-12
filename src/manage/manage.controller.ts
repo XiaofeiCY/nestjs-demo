@@ -1,6 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ManageService } from './manage.service';
-import { CreateManageDto } from './dto/create-manage.dto';
+import { CreateManageDto, TransferMoneyDto } from './dto/create-manage.dto';
 import { UpdateManageDto } from './dto/update-manage.dto';
 
 @Controller('manage')
@@ -10,6 +18,11 @@ export class ManageController {
   @Post()
   create(@Body() createManageDto: CreateManageDto) {
     return this.manageService.create(createManageDto);
+  }
+
+  @Post('transferMoney')
+  transferMoney(@Body() transferMoneyDto: TransferMoneyDto) {
+    return this.manageService.transferMoney(transferMoneyDto);
   }
 
   @Get()
