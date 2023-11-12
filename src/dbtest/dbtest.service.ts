@@ -1,15 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDbtestDto } from './dto/create-dbtest.dto';
 import { UpdateDbtestDto } from './dto/update-dbtest.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Like, Repository } from 'typeorm';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { Dbtest } from './entities/dbtest.entity';
 
 @Injectable()
 export class DbtestService {
-  create(createDbtestDto: CreateDbtestDto) {
-    return 'This action adds a new dbtest';
+  constructor(
+    @InjectRepository(Dbtest) private readonly dbtest: Repository<Dbtest>,
+  ) {}
+
+  create(createUserDto: CreateUserDto) {
+    const data = new Dbtest();
+    data.name = createUserDto.name;
+    data.age = createUserDto.age;
+    return this.dbtest.save(data);
   }
 
-  findAll() {
-    return `This action returns all dbtest`;
+  findAll(query: { name: string }) {
+    return this.dbtest.find({
+      where: {
+        name: Like(`%${query.name}%`),
+      },
+    });
   }
 
   findOne(id: number) {
@@ -17,6 +31,7 @@ export class DbtestService {
   }
 
   update(id: number, updateDbtestDto: UpdateDbtestDto) {
+    console.log('updateDbtestDto', updateDbtestDto);
     return `This action updates a #${id} dbtest`;
   }
 

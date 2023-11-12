@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { DbtestService } from './dbtest.service';
 import { CreateDbtestDto } from './dto/create-dbtest.dto';
 import { UpdateDbtestDto } from './dto/update-dbtest.dto';
@@ -13,8 +22,8 @@ export class DbtestController {
   }
 
   @Get()
-  findAll() {
-    return this.dbtestService.findAll();
+  findAll(@Query() query: { name: string }) {
+    return this.dbtestService.findAll(query);
   }
 
   @Get(':id')
