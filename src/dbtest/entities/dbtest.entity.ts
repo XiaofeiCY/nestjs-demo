@@ -29,6 +29,9 @@ export class Dbtest {
   @Column()
   age: number;
 
+  @Column()
+  desc: string;
+
   @CreateDateColumn({ type: 'timestamp' }) // 自动生成数据，类型定义对应数据库里面的timestamp
   createTime: Date;
 
