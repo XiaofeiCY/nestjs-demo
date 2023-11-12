@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { Dbtest } from './entities/dbtest.entity';
 import { CreateDbtestDto } from './dto/create-dbtest.dto';
-import { findListParams } from './dbtest.controller';
+import { findListParams, tagParams } from './dbtest.controller';
 
 @Injectable()
 export class DbtestService {
@@ -54,5 +54,10 @@ export class DbtestService {
 
   remove(id: number) {
     return this.dbtest.delete(id);
+  }
+
+  addTags(params: tagParams) {
+    console.log('-------', params);
+    return true;
   }
 }

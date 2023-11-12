@@ -18,6 +18,11 @@ export interface findListParams {
   pageSize: number;
 }
 
+export interface tagParams {
+  tags: string[];
+  userId: string;
+}
+
 @Controller('dbtest')
 export class DbtestController {
   constructor(private readonly dbtestService: DbtestService) {}
@@ -25,6 +30,11 @@ export class DbtestController {
   @Post()
   create(@Body() createDbtestDto: CreateDbtestDto) {
     return this.dbtestService.create(createDbtestDto);
+  }
+
+  @Post('add/tags')
+  addTags(@Body() params: tagParams) {
+    return this.dbtestService.addTags(params);
   }
 
   @Get()

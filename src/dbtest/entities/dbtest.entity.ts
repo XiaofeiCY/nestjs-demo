@@ -3,8 +3,10 @@ import {
   CreateDateColumn,
   Entity,
   Generated,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Tags } from './tags.entity';
 
 /**
  * 定义表
@@ -49,5 +51,8 @@ export class Dbtest {
   // subject: string[];
   //
   // @Column('simple-json') // 这种会自动调用JSON.stringfy函数，把值改为json格式存入数据库
-  // chunyangJson: { name: string; age: number }; //
+  // chunyangJson: { name: string; age: number };
+
+  @OneToMany(() => Tags, (tags) => tags.user) // 对于用户表来说，用户有多个标签，所以是多对一
+  tags: Tags[];
 }
