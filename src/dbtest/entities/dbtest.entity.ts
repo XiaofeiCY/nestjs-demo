@@ -45,9 +45,9 @@ export class Dbtest {
   })
   chunyangEnum: number;
 
-  @Column('simple-array')
-  subject: string[];
-
-  @Column('simple-json') // 这种会自动调用JSON.stringfy函数，把值改为json格式存入数据库
-  chunyangJson: { name: string; age: number }; //
+  // @Column('simple-array')
+  // subject: string[];
+  //
+  // @Column('simple-json') // 这种会自动调用JSON.stringfy函数，把值改为json格式存入数据库
+  // chunyangJson: { name: string; age: number }; //
 }

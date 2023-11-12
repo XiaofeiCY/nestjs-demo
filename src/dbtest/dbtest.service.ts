@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UpdateDbtestDto } from './dto/update-dbtest.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
-import { CreateUserDto } from '../user/dto/create-user.dto';
 import { Dbtest } from './entities/dbtest.entity';
+import { CreateDbtestDto } from './dto/create-dbtest.dto';
 
 @Injectable()
 export class DbtestService {
@@ -11,10 +11,11 @@ export class DbtestService {
     @InjectRepository(Dbtest) private readonly dbtest: Repository<Dbtest>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: CreateDbtestDto) {
     const data = new Dbtest();
     data.name = createUserDto.name;
     data.age = createUserDto.age;
+    data.desc = createUserDto.desc;
     return this.dbtest.save(data);
   }
 
