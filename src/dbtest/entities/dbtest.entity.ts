@@ -17,7 +17,12 @@ export class Dbtest {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 255,
+    charset: 'utf8mb4',
+    collation: 'utf8mb4_unicode_ci',
+  })
   name: string;
 
   @Column({
@@ -31,7 +36,12 @@ export class Dbtest {
   @Column()
   age: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 255,
+    charset: 'utf8mb4',
+    collation: 'utf8mb4_unicode_ci',
+  })
   desc: string;
 
   @CreateDateColumn({ type: 'timestamp' }) // 自动生成数据，类型定义对应数据库里面的timestamp

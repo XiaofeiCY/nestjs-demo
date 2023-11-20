@@ -14,12 +14,12 @@ export class DbtestService {
     @InjectRepository(Tags) private readonly tags: Repository<Tags>,
   ) {}
 
-  create(createUserDto: CreateDbtestDto) {
+  async create(createUserDto: CreateDbtestDto) {
     const data = new Dbtest();
     data.name = createUserDto.name;
     data.age = createUserDto.age;
     data.desc = createUserDto.desc;
-    return this.dbtest.save(data);
+    return await this.dbtest.save(data);
   }
 
   async findAll(query: findListParams) {

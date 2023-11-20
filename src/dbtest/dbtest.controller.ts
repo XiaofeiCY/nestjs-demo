@@ -28,8 +28,8 @@ export class DbtestController {
   constructor(private readonly dbtestService: DbtestService) {}
 
   @Post()
-  create(@Body() createDbtestDto: CreateDbtestDto) {
-    return this.dbtestService.create(createDbtestDto);
+  async create(@Body() createDbtestDto: CreateDbtestDto) {
+    return await this.dbtestService.create(createDbtestDto);
   }
 
   @Post('add/tags')
